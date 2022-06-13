@@ -1,0 +1,14 @@
+{
+  "name": "Covid-19 in Slovenia",
+  "version": "1.0.0",
+  "description": "Zadnji Covid podatki za Slovenijo.",
+  "manifest_version": 3,
+  "author": "Enej Licina",
+  "action":{
+    "default_popup": "index.html",
+    "default_title": "Covid-19 stanje v Sloveniji"
+  },
+  "icons": {
+    "96": "icons/coronavirus-icon.png"
+  }
+}
