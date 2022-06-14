@@ -37,6 +37,10 @@
 }
 
 /* General, basic styling */
+html,
+body {
+    height: 100%;
+}
 
 html {
     scroll-behavior: smooth;
@@ -44,11 +48,17 @@ html {
 
 body {
     margin: 0;
-    background-color: var(--clr-light);
-    color: var(--clr-dark);
+    color: var(--clr-light);
     font-family: var(--ff-primary);
     font-size: var(--fs-body);
     line-height: 1.6;
+
+    background: #ffd369; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffd369 0%, #e26241 15%, #9c0637 70%, #650404 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #ffd369 0%,#e26241 15%,#9c0637 70%,#650404 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #ffd369 0%,#e26241 15%,#9c0637 70%,#650404 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffd369', endColorstr='#650404',GradientType=0 ); /* IE6-9 */
+
 }
 
 img {
@@ -59,6 +69,11 @@ ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.4rem;
 }
 
 strong {
