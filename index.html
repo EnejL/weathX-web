@@ -10,6 +10,9 @@
 
     <body>
         <main>
+            <input type="text"
+                   class="input-text input-autocomplete"
+                   id="input-autocomplete">
             <div class="current-weather">
                 <h1 id="location-name"></h1>
                 <span id="weather-icon">
@@ -20,9 +23,52 @@
                 <span id="low-high-temp"></span>
             </div>
 
-            <div class="future-hourly" id="future-hourly"></div>
+            <div class="future-hourly white-wrapper" id="future-hourly">
+                <h5 class="white-wrapper-title future-hourly-title">
+                    Hourly forecast (3h intervals)
+                </h5>
+                <div id="future-hourly-wrapper"></div>
+            </div>
 
             <div class="future-days" id="future-days"></div>
+            <div class="current-weather-detailed">
+                <div class="current-weather-detailed-inner">
+                    <h5 class="white-wrapper-title">
+                        Feels like
+                    </h5>
+                    <div class="current-weather-detailed-item" id="feels-like"></div>
+                </div>
+                <div class="current-weather-detailed-inner">
+                    <h5 class="white-wrapper-title">
+                        Humidity
+                    </h5>
+                    <div class="current-weather-detailed-item" id="humidity"></div>
+                </div>
+                <div class="current-weather-detailed-inner">
+                    <h5 class="white-wrapper-title">
+                        Air pressure
+                    </h5>
+                    <div class="current-weather-detailed-item" id="air-pressure"></div>
+                </div>
+                <div class="current-weather-detailed-inner">
+                    <h5 class="white-wrapper-title">
+                        Wind speed
+                    </h5>
+                    <div class="current-weather-detailed-item" id="wind-speed"></div>
+                </div>
+                <div class="current-weather-detailed-inner">
+                    <h5 class="white-wrapper-title">
+                        Sunrise
+                    </h5>
+                    <div class="current-weather-detailed-item" id="sunrise"></div>
+                </div>
+                <div class="current-weather-detailed-inner">
+                    <h5 class="white-wrapper-title">
+                        Sunset
+                    </h5>
+                    <div class="current-weather-detailed-item" id="sunset"></div>
+                </div>
+            </div>
         </main>
         <script type="module" src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
         <script type="module" src="js/main.js"></script>
