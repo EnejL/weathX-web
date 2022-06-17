@@ -1,20 +1,26 @@
-let locationCity = prompt("Type in the location:");
+// let locationCity = prompt("Type in the location:");
+let locationCity = 'Tokio';
 
 let degreeMark = '°';
 let degreesCelsius = 'C';
 let degreesFahrenheit = 'F';
+let baseUrl = "http://openweathermap.org/img/wn/";
+let imgEnd = "@2x.png";
+
+const api = {
+    base: 'https://api.openweathermap.org/data/2.5/',
+    key: ''
+}
 
 // current weather
-
 async function fetchDataCurrentWeather() {
-    const getCurrentWeathData = await fetch ("https://api.openweathermap.org/data/2.5/weather?q=" + locationCity + "&appid=" + apiKey + "&units=metric");
+    const getCurrentWeathData = await fetch (api.base + "weather?q=" + locationCity + "&appid=" + api.key + "&units=metric");
     const currentDataRecord = await getCurrentWeathData.json();
-    // console.log(currentDataRecord);
 
     // gathering the weather data here
-    let currentTemp = currentDataRecord.main.temp;
-    let lowestTemp = currentDataRecord.main.temp_min;
-    let highestTemp = currentDataRecord.main.temp_max;
+    let currentTemp = currentDataRecord.main.temp.toFixed(1);
+    let lowestTemp = currentDataRecord.main.temp_min.toFixed(1);
+    let highestTemp = currentDataRecord.main.temp_max.toFixed(1);
     let humidity;
     let airPressure;
     let feelsLike;
@@ -30,40 +36,56 @@ async function fetchDataCurrentWeather() {
     document.getElementById('weather-image').src = 'http://openweathermap.org/img/wn/' + weathIcon + '@2x.png';
     document.getElementById('weather-situation').innerHTML = weathDescription;
     document.getElementById('current-temp').innerHTML = currentTemp + degreeMark + degreesCelsius;
-    document.getElementById('low-high-temp').innerHTML = lowestTemp + degreeMark + ' / ' + highestTemp + degreeMark;
+    document.getElementById('low-high-temp').innerHTML = lowestTemp + degreeMark + degreesCelsius + ' / ' + highestTemp + degreeMark + degreesCelsius;
 }
 fetchDataCurrentWeather();
 
 
 // hourly weather forecast
-
 async function fetchDataHourlyForecast() {
-    const getHourlyForecast = await fetch ("https://api.openweathermap.org/data/2.5/forecast?q=" + locationCity + "&appid=" + apiKey + "&units=metric");
+    const getHourlyForecast = await fetch (api.base + "forecast?q=" + locationCity + "&appid=" + api.key + "&units=metric");
     const hourlyForecastRecord = await getHourlyForecast.json();
-    console.log(hourlyForecastRecord);
+    // console.log(hourlyForecastRecord);
 
-    // getting the weather icon
-    let weathIcon = hourlyForecastRecord.list[0].weather[0].icon;
+    for (let i = 0; i <= 14; i++) {
+        let hourlyHour = hourlyForecastRecord.list[i].dt_txt.substring(11, 16);
+        // let hourlyIcon = hourlyForecastRecord.list[i].weather[i].icon;
+        let hourlyTemp = hourlyForecastRecord.list[i].main.temp.toFixed(1) + " " + degreeMark + " " + degreesCelsius;
 
-    // adding the hours to the hourly forecast
-    document.getElementById('future-hour-1').innerHTML = hourlyForecastRecord.list[0].dt_txt;
-    document.getElementById('future-hour-2').innerHTML = hourlyForecastRecord.list[1].dt_txt;
-    document.getElementById('future-hour-3').innerHTML = hourlyForecastRecord.list[2].dt_txt;
-    document.getElementById('future-hour-4').innerHTML = hourlyForecastRecord.list[3].dt_txt;
-    document.getElementById('future-hour-5').innerHTML = hourlyForecastRecord.list[4].dt_txt;
+        const futureHourlyDiv = document.getElementById('future-hourly');
 
-    // adding the degrees to the hourly forecast
-    document.getElementById('future-temp-1').innerHTML = hourlyForecastRecord.list[0].main.temp + degreeMark + degreesCelsius;
-    document.getElementById('future-temp-2').innerHTML = hourlyForecastRecord.list[1].main.temp + degreeMark + degreesCelsius;
-    document.getElementById('future-temp-3').innerHTML = hourlyForecastRecord.list[2].main.temp + degreeMark + degreesCelsius;
-    document.getElementById('future-temp-4').innerHTML = hourlyForecastRecord.list[3].main.temp + degreeMark + degreesCelsius;
-    document.getElementById('future-temp-5').innerHTML = hourlyForecastRecord.list[4].main.temp + degreeMark + degreesCelsius;
-
-    // adding the icons ot the hourly forecast
-    document.getElementById('future-desc-1').src = 'http://openweathermap.org/img/wn/' + hourlyForecastRecord.list[0].weather[0].icon + '@2x.png';
-    document.getElementById('future-desc-2').src = 'http://openweathermap.org/img/wn/' + hourlyForecastRecord.list[1].weather[0].icon + '@2x.png';
-    document.getElementById('future-desc-3').src = 'http://openweathermap.org/img/wn/' + hourlyForecastRecord.list[2].weather[0].icon + '@2x.png';
-    document.getElementById('future-desc-4').src = 'http://openweathermap.org/img/wn/' + hourlyForecastRecord.list[3].weather[0].icon + '@2x.png';
-    document.getElementById('future-desc-5').src = 'http://openweathermap.org/img/wn/' + hourlyForecastRecord.list[4].weather[0].icon + '@2x.png';
+        futureHourlyDiv.innerHTML +=
+            "<div   class=\"future-hourly-child\">\n" +
+            "<span  class=\"future-hour\">" + hourlyHour + "</span>\n" +
+            "<img   src=\"http://openweathermap.org/img/wn/04n@2x.png\" class=\"future-hourly-icon\" alt=\"\" />\n" +
+            "<span  class=\"future-temp\">" + hourlyTemp + "</span></div>";
+    };
 }
 fetchDataHourlyForecast();
+
+
+// daily weather forecast
+async function fetchDataDailyForecast() {
+    const getDailyForecast = await fetch (api.base + "forecast?q=" + locationCity + "&appid=" + api.key + "&units=metric");
+    const dailyForecastRecord = await getDailyForecast.json();
+    // console.log(dailyForecastRecord);
+
+    const intervalVal = 8;
+
+    for (let i = 0; i <= 30; i = i + intervalVal) {
+        let dailyDay = dailyForecastRecord.list[i].dt_txt.substring(0, 10);
+        // let dailyIcon = dailyForecastRecord.list[i].weather[i].icon;
+        let dailyTemp = dailyForecastRecord.list[i].main.temp.toFixed(1) + " " + degreeMark + " " + degreesCelsius;
+
+        console.log(dailyDay);
+
+        const futureDaysDiv = document.getElementById('future-days');
+
+        futureDaysDiv.innerHTML +=
+            "<div   class=\"future-day-item\">\n" +
+            "<span  class=\"future-day-title\">" + dailyDay + "</span>\n" +
+            "<img   src=\"http://openweathermap.org/img/wn/04n@2x.png\" class=\"future-day-icon\" alt=\"\" />\n" +
+            "<span  class=\"future-day-temp\">" + dailyTemp + "</span></div>";
+    }
+}
+fetchDataDailyForecast();
