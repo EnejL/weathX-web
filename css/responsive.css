@@ -1,0 +1,22 @@
+@media only screen and (min-width: 580px) {
+	#future-days {
+		width: 50%;
+	}
+
+	.bottom-weather-container {
+		flex-direction: row;
+	}
+
+	.current-weather-detailed {
+		width: 50%;
+		align-self: stretch;
+		padding: 15px 0 15px 15px;
+		grid-template-rows: unset;
+	}
+}
+
+@media only screen and (min-width: 580px) {
+	.current-weather-detailed {
+		padding: 15px 0 15px 30px;
+	}
+}

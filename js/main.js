@@ -1,5 +1,5 @@
 // let locationCity = prompt("Type in the location:");
-let locationCity = 'Rotterdam';
+let locationCity = 'Rotterdam'; // <--- temporary
 
 let degreeMark = '°';
 let degreesCelsius = 'C';
@@ -24,12 +24,23 @@ async function fetchDataCurrentWeather() {
     let currentTemp = currentDataRecord.main.temp.toFixed(1);
     let lowestTemp = currentDataRecord.main.temp_min.toFixed(1);
     let highestTemp = currentDataRecord.main.temp_max.toFixed(1);
-    let feelsLike = currentDataRecord.main.feels_like;
+    let feelsLike = currentDataRecord.main.feels_like.toFixed(1);
     let humidity = currentDataRecord.main.humidity;
     let airPressure = currentDataRecord.main.pressure;
     let windSpeed = currentDataRecord.wind.speed;
-    let sunrise = currentDataRecord.sys.sunrise;
-    let sunset = currentDataRecord.sys.sunset;
+
+    let sunriseRaw = currentDataRecord.sys.sunrise;
+    let sunsetRaw = currentDataRecord.sys.sunset;
+    let formattedSunrise = new Date(sunriseRaw*1000);
+    let formattedSunset = new Date(sunsetRaw*1000);
+    let sunriseHours = formattedSunrise.getHours();
+    let sunsetHours = formattedSunset.getHours();
+    let sunriseMinutes = formattedSunrise.getMinutes();
+    let sunsetMinutes = formattedSunset.getMinutes();
+
+    let sunrise = sunriseHours + ':' + sunriseMinutes;
+    let sunset = sunsetHours + ':' + sunsetMinutes;
+
     let weathDescription = currentDataRecord.weather[0].description;
 
     // getting the weather icon
@@ -43,10 +54,10 @@ async function fetchDataCurrentWeather() {
     document.getElementById('low-high-temp').innerHTML = lowestTemp + degreeMark + ' / ' + highestTemp + degreeMark;
 
     // current weather detailed view HTML
-    document.getElementById('feels-like').innerHTML = feelsLike;
-    document.getElementById('humidity').innerHTML = humidity;
-    document.getElementById('air-pressure').innerHTML = airPressure;
-    document.getElementById('wind-speed').innerHTML = windSpeed;
+    document.getElementById('feels-like').innerHTML = feelsLike + ' ' + degreeMark + ' ' + degreesCelsius;
+    document.getElementById('humidity').innerHTML = humidity + '%';
+    document.getElementById('air-pressure').innerHTML = airPressure + ' hPa';
+    document.getElementById('wind-speed').innerHTML = windSpeed + ' km/h';
     document.getElementById('sunrise').innerHTML = sunrise;
     document.getElementById('sunset').innerHTML = sunset;
 }
